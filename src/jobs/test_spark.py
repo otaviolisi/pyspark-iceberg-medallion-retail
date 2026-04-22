@@ -1,30 +1,24 @@
 from src.config.spark_config import create_spark_session
 
+spark = create_spark_session("test-rest-catalog")
 
-def main():
-    spark = create_spark_session("test-spark-iceberg")
+spark.sql("CREATE NAMESPACE IF NOT EXISTS demo.bronze")
 
-    spark.sql("CREATE NAMESPACE IF NOT EXISTS local.bronze")
-    spark.sql("""
-        CREATE TABLE IF NOT EXISTS local.bronze.customers (
-            id INT,
-            name STRING,
-            city STRING
-        )
-        USING iceberg
-    """)
+spark.sql("""
+    CREATE TABLE IF NOT EXISTS demo.bronze.customers (
+        id INT,
+        name STRING,
+        city STRING
+    )
+    USING iceberg
+""")
 
-    spark.sql("""
-        INSERT INTO local.bronze.customers VALUES
-        (1, 'Otavio', 'Ribeirao Preto'),
-        (2, 'Jose', 'Sao Paulo')
-    """)
+spark.sql("""
+    INSERT INTO demo.bronze.customers VALUES
+    (1, 'Otavio', 'Ribeirao Preto'),
+    (2, 'Maria', 'Sao Paulo')
+""")
 
-    df = spark.sql("SELECT * FROM local.bronze.customers")
-    df.show(truncate=False)
+spark.sql("SELECT * FROM demo.bronze.customers").show(truncate=False)
 
-    spark.stop()
-
-
-if __name__ == "__main__":
-    main()
+spark.stop()

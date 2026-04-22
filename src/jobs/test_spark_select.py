@@ -2,18 +2,29 @@ from src.config.spark_config import create_spark_session
 
 
 def main():
-    spark = create_spark_session("test-spark-select")
+    spark = create_spark_session("test-bronze-direct-select")
 
-    print("\n=== TESTANDO SELECT DIRETO ===")
+    try:
+        df = spark.sql("""
+            SELECT
+                ProductID,
+                Name,
+                ProductNumber,
+                ModifiedDate,
+                DiscontinuedDate,
+                bronze_ingestion_timestamp,
+                bronze_batch_id,
+                bronze_load_strategy
+            FROM local.bronze.saleslt_product
+            ORDER BY bronze_ingestion_timestamp DESC
+        """)
 
-    df = spark.sql("""
-        SELECT *
-        FROM local.bronze.customers
-    """)
+        df.show(20, truncate=False)
+        print(f"Total rows: {df.count()}")
+        df.printSchema()
 
-    df.show(truncate=False)
-
-    spark.stop()
+    finally:
+        spark.stop()
 
 
 if __name__ == "__main__":

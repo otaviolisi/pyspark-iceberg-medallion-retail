@@ -32,6 +32,10 @@ def get_watermark_path(table_id: str) -> str:
     return f"state/{table_id}_bronze_watermark.json"
 
 
+def get_cdc_lsn_path(table_id: str) -> str:
+    return f"state/{table_id}_bronze_lsn.json"
+
+
 def get_table_config(table_id: str) -> dict[str, Any]:
     if table_id not in TABLES_CONFIG:
         available = ", ".join(TABLES_CONFIG.keys())
@@ -45,7 +49,50 @@ def ensure_bronze_namespace_exists(spark) -> None:
     spark.sql("CREATE NAMESPACE IF NOT EXISTS demo.bronze")
 
 
-def build_select_query(config: dict[str, Any], last_watermark: str | None) -> str:
+def read_single_value(spark, jdbc_url: str, query: str, column_name: str) -> str | None:
+    df = (
+        spark.read.format("jdbc")
+        .option("url", jdbc_url)
+        .option("driver", "com.microsoft.sqlserver.jdbc.SQLServerDriver")
+        .option("dbtable", f"({query}) AS q")
+        .option("user", SQLSERVER_USER)
+        .option("password", SQLSERVER_PASSWORD)
+        .load()
+    )
+
+    rows = df.collect()
+    if not rows:
+        return None
+
+    return rows[0][column_name]
+
+
+def get_cdc_max_lsn(spark, jdbc_url: str) -> str:
+    query = """
+        SELECT CONVERT(varchar(42), sys.fn_cdc_get_max_lsn(), 1) AS max_lsn
+    """
+    result = read_single_value(spark, jdbc_url, query, "max_lsn")
+    if not result:
+        raise ValueError("Could not retrieve current CDC max LSN.")
+    return result
+
+
+def get_cdc_min_lsn(spark, jdbc_url: str, capture_instance: str) -> str:
+    query = f"""
+        SELECT CONVERT(varchar(42), sys.fn_cdc_get_min_lsn('{capture_instance}'), 1) AS min_lsn
+    """
+    result = read_single_value(spark, jdbc_url, query, "min_lsn")
+    if not result:
+        raise ValueError(f"Could not retrieve CDC min LSN for capture instance {capture_instance}.")
+    return result
+
+
+def build_select_query(
+    config: dict[str, Any],
+    last_watermark: str | None = None,
+    cdc_from_lsn: str | None = None,
+    cdc_to_lsn: str | None = None,
+) -> str:
     source_schema = config["source"]["schema"]
     source_table = config["source"]["table"]
     query_columns = config["source"]["query_columns"]
@@ -84,6 +131,29 @@ def build_select_query(config: dict[str, Any], last_watermark: str | None) -> st
         ) AS src
         """
 
+    if load_strategy == "incremental_cdc":
+        cdc_config = config.get("cdc", {})
+        capture_instance = cdc_config.get("capture_instance")
+        row_filter_option = cdc_config.get("row_filter_option", "all")
+
+        if not capture_instance:
+            raise ValueError("CDC config requires 'capture_instance'.")
+
+        if not cdc_from_lsn or not cdc_to_lsn:
+            raise ValueError("CDC query requires from_lsn and to_lsn.")
+
+        return f"""
+        (
+            SELECT
+                {selected_columns}
+            FROM cdc.fn_cdc_get_all_changes_{capture_instance}(
+                sys.fn_cdc_increment_lsn(CONVERT(binary(10), '{cdc_from_lsn}', 1)),
+                CONVERT(binary(10), '{cdc_to_lsn}', 1),
+                '{row_filter_option}'
+            )
+        ) AS src
+        """
+
     raise ValueError(f"Unsupported load_strategy: {load_strategy}")
 
 
@@ -104,6 +174,8 @@ def add_bronze_metadata(
     table_id: str,
     config: dict[str, Any],
     last_watermark: str | None,
+    cdc_from_lsn: str | None = None,
+    cdc_to_lsn: str | None = None,
 ) -> DataFrame:
     source_schema = config["source"]["schema"]
     source_table = config["source"]["table"]
@@ -132,6 +204,8 @@ def add_bronze_metadata(
             "bronze_soft_delete_column",
             F.lit(soft_delete_column if soft_delete_column else ""),
         )
+        .withColumn("bronze_cdc_from_lsn", F.lit(cdc_from_lsn if cdc_from_lsn else ""))
+        .withColumn("bronze_cdc_to_lsn", F.lit(cdc_to_lsn if cdc_to_lsn else ""))
     )
 
     return df_bronze
@@ -184,6 +258,11 @@ def run(table_id: str) -> None:
 
         last_watermark = None
         watermark_path = None
+        cdc_from_lsn = None
+        cdc_to_lsn = None
+        cdc_lsn_path = None
+
+        jdbc_url = build_jdbc_url()
 
         if load_strategy in ("incremental_with_soft_delete", "incremental_upsert"):
             watermark_path = get_watermark_path(table_id)
@@ -192,14 +271,38 @@ def run(table_id: str) -> None:
                 default_value=initial_watermark,
             )
 
-        jdbc_url = build_jdbc_url()
-        query = build_select_query(config, last_watermark)
+        if load_strategy == "incremental_cdc":
+            cdc_lsn_path = get_cdc_lsn_path(table_id)
+            cdc_from_lsn = read_watermark(file_path=cdc_lsn_path, default_value=None)
+
+            if not cdc_from_lsn:
+                raise ValueError(
+                    f"CDC state not initialized for table_id={table_id}. "
+                    f"Run the initial snapshot first and then initialize the CDC LSN state."
+                )
+
+            cdc_to_lsn = get_cdc_max_lsn(spark, jdbc_url)
+
+            if cdc_from_lsn == cdc_to_lsn:
+                print("No new CDC changes to process.")
+                return
+
+        query = build_select_query(
+            config=config,
+            last_watermark=last_watermark,
+            cdc_from_lsn=cdc_from_lsn,
+            cdc_to_lsn=cdc_to_lsn,
+        )
 
         print(f"Running bronze pipeline for table_id={table_id}")
         print(f"Strategy: {load_strategy}")
         print(f"Target bronze table: {bronze_table}")
+
         if last_watermark:
             print(f"Using watermark: {last_watermark}")
+
+        if cdc_from_lsn and cdc_to_lsn:
+            print(f"CDC window from {cdc_from_lsn} to {cdc_to_lsn}")
 
         df = read_source_table(spark, jdbc_url, query)
 
@@ -210,6 +313,9 @@ def run(table_id: str) -> None:
 
         if sample_count == 0:
             print("No records returned from source.")
+            if load_strategy == "incremental_cdc" and cdc_to_lsn and cdc_lsn_path:
+                write_watermark(cdc_lsn_path, cdc_to_lsn)
+                print(f"CDC LSN state advanced to: {cdc_to_lsn}")
             return
 
         df_bronze = add_bronze_metadata(
@@ -217,6 +323,8 @@ def run(table_id: str) -> None:
             table_id=table_id,
             config=config,
             last_watermark=last_watermark,
+            cdc_from_lsn=cdc_from_lsn,
+            cdc_to_lsn=cdc_to_lsn,
         )
 
         table_exists = spark.catalog.tableExists(bronze_table)
@@ -238,6 +346,11 @@ def run(table_id: str) -> None:
             if max_watermark is not None and watermark_path is not None:
                 write_watermark(watermark_path, max_watermark)
                 print(f"Updated watermark saved: {max_watermark}")
+
+        if load_strategy == "incremental_cdc":
+            if cdc_to_lsn is not None and cdc_lsn_path is not None:
+                write_watermark(cdc_lsn_path, cdc_to_lsn)
+                print(f"Updated CDC LSN saved: {cdc_to_lsn}")
 
         row_count = df_bronze.count()
         print(f"Bronze load completed successfully. Rows processed: {row_count}")

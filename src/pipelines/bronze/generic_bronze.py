@@ -1,4 +1,5 @@
 import uuid
+from datetime import date, datetime
 from typing import Any
 
 from pyspark.sql import DataFrame
@@ -60,6 +61,11 @@ def build_select_query(config: dict[str, Any], last_watermark: str | None) -> st
                 f"for strategy {load_strategy}"
             )
 
+        if not last_watermark:
+            raise ValueError(
+                f"last_watermark is required for strategy {load_strategy}"
+            )
+
         return f"""
         (
             SELECT
@@ -93,7 +99,12 @@ def read_source_table(spark, jdbc_url: str, query: str) -> DataFrame:
     )
 
 
-def add_bronze_metadata(df: DataFrame, table_id: str, config: dict[str, Any], last_watermark: str | None) -> DataFrame:
+def add_bronze_metadata(
+    df: DataFrame,
+    table_id: str,
+    config: dict[str, Any],
+    last_watermark: str | None,
+) -> DataFrame:
     source_schema = config["source"]["schema"]
     source_table = config["source"]["table"]
     load_strategy = config["load_strategy"]
@@ -109,9 +120,18 @@ def add_bronze_metadata(df: DataFrame, table_id: str, config: dict[str, Any], la
         .withColumn("bronze_source_schema", F.lit(source_schema))
         .withColumn("bronze_source_table", F.lit(source_table))
         .withColumn("bronze_load_strategy", F.lit(load_strategy))
-        .withColumn("bronze_watermark_column", F.lit(watermark_column if watermark_column else ""))
-        .withColumn("bronze_watermark_used", F.lit(last_watermark if last_watermark else ""))
-        .withColumn("bronze_soft_delete_column", F.lit(soft_delete_column if soft_delete_column else ""))
+        .withColumn(
+            "bronze_watermark_column",
+            F.lit(watermark_column if watermark_column else ""),
+        )
+        .withColumn(
+            "bronze_watermark_used",
+            F.lit(last_watermark if last_watermark else ""),
+        )
+        .withColumn(
+            "bronze_soft_delete_column",
+            F.lit(soft_delete_column if soft_delete_column else ""),
+        )
     )
 
     return df_bronze
@@ -125,10 +145,29 @@ def append_to_bronze(df_bronze: DataFrame, bronze_table: str) -> None:
     df_bronze.writeTo(bronze_table).append()
 
 
+def replace_bronze_table(spark, df_bronze: DataFrame, bronze_table: str) -> None:
+    if spark.catalog.tableExists(bronze_table):
+        spark.sql(f"DROP TABLE {bronze_table}")
+    df_bronze.writeTo(bronze_table).create()
+
+
+def format_watermark_value(value: Any) -> str | None:
+    if value is None:
+        return None
+
+    if isinstance(value, datetime):
+        return value.strftime("%Y-%m-%d %H:%M:%S")
+
+    if isinstance(value, date):
+        return value.strftime("%Y-%m-%d")
+
+    return str(value)
+
+
 def get_max_watermark(df: DataFrame, watermark_column: str) -> str | None:
     result = df.agg(F.max(F.col(watermark_column)).alias("max_watermark")).collect()[0]
     max_watermark = result["max_watermark"]
-    return str(max_watermark) if max_watermark is not None else None
+    return format_watermark_value(max_watermark)
 
 
 def run(table_id: str) -> None:
@@ -182,12 +221,16 @@ def run(table_id: str) -> None:
 
         table_exists = spark.catalog.tableExists(bronze_table)
 
-        if not table_exists:
-            print(f"Bronze table does not exist. Creating: {bronze_table}")
-            create_bronze_table_if_not_exists(df_bronze, bronze_table)
+        if load_strategy == "full_snapshot":
+            print(f"Replacing bronze table with full snapshot: {bronze_table}")
+            replace_bronze_table(spark, df_bronze, bronze_table)
         else:
-            print(f"Appending data to bronze table: {bronze_table}")
-            append_to_bronze(df_bronze, bronze_table)
+            if not table_exists:
+                print(f"Bronze table does not exist. Creating: {bronze_table}")
+                create_bronze_table_if_not_exists(df_bronze, bronze_table)
+            else:
+                print(f"Appending data to bronze table: {bronze_table}")
+                append_to_bronze(df_bronze, bronze_table)
 
         if load_strategy in ("incremental_with_soft_delete", "incremental_upsert"):
             max_watermark = get_max_watermark(df, watermark_column)

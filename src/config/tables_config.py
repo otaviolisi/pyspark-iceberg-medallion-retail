@@ -30,18 +30,19 @@ TABLES_CONFIG = {
         "soft_delete_column": "DiscontinuedDate",
         "initial_watermark": "1900-01-01 00:00:00",
     },
-     "saleslt_address": {
+
+    "saleslt_address": {
         "source": {
             "schema": "SalesLT",
             "table": "Address",
-          "query_columns": [
-            "AddressID",
-            "AddressLine1",
-            "AddressLine2",
-            "City",
-            "StateProvince",
-            "CountryRegion",
-            "PostalCode",
+            "query_columns": [
+                "AddressID",
+                "AddressLine1",
+                "AddressLine2",
+                "City",
+                "StateProvince",
+                "CountryRegion",
+                "PostalCode",
             ],
         },
         "target": {
@@ -49,10 +50,81 @@ TABLES_CONFIG = {
         },
         "primary_key": ["AddressID"],
         "load_strategy": "full_snapshot",
-        "watermark_column": "",
-        "soft_delete_column": "",
-        "initial_watermark": "1900-01-01 00:00:00",
-    }
+        "watermark_column": None,
+        "soft_delete_column": None,
+    },
 
-    
+    "saleslt_salesorderdetail_snapshot": {
+        "source": {
+            "schema": "SalesLT",
+            "table": "SalesOrderDetail",
+            "query_columns": [
+                "SalesOrderID",
+                "SalesOrderDetailID",
+                "OrderQty",
+                "ProductID",
+                "UnitPrice",
+                "UnitPriceDiscount",
+                "LineTotal",
+            ],
+        },
+        "target": {
+            "bronze_table": "demo.bronze.saleslt_salesorderdetail_snapshot",
+        },
+        "primary_key": ["SalesOrderID", "SalesOrderDetailID"],
+        "load_strategy": "full_snapshot",
+        "watermark_column": None,
+        "soft_delete_column": None,
+    },
+
+    "saleslt_salesorderdetail_cdc": {
+        "source": {
+            "schema": "SalesLT",
+            "table": "SalesOrderDetail",
+            "query_columns": ["*"],
+        },
+        "target": {
+            "bronze_table": "demo.bronze.saleslt_salesorderdetail_cdc",
+        },
+        "primary_key": ["SalesOrderID", "SalesOrderDetailID"],
+        "load_strategy": "incremental_cdc",
+        "watermark_column": None,
+        "soft_delete_column": None,
+        "cdc": {
+            "capture_instance": "SalesLT_SalesOrderDetail",
+            "row_filter_option": "all",
+        },
+    },
+
+    "saleslt_customer": {
+        "source": {
+            "schema": "SalesLT",
+            "table": "Customer",
+            "query_columns": [
+                "CustomerID",
+                "NameStyle",
+                "Title",
+                "FirstName",
+                "MiddleName",
+                "LastName",
+                "Suffix",
+                "CompanyName",
+                "SalesPerson",
+                "EmailAddress",
+                "Phone",
+                "PasswordHash",
+                "PasswordSalt",
+                "rowguid",
+                "ModifiedDate",
+            ],
+        },
+        "target": {
+            "bronze_table": "demo.bronze.saleslt_customer",
+        },
+        "primary_key": ["CustomerID"],
+        "load_strategy": "incremental_upsert",
+        "watermark_column": "ModifiedDate",
+        "soft_delete_column": None,
+        "initial_watermark": "1900-01-01 00:00:00",
+    },
 }

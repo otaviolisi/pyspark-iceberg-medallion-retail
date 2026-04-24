@@ -7,19 +7,12 @@ def main():
     try:
         df = spark.sql("""
             SELECT
-                ProductID,
-                Name,
-                ProductNumber,
-                ModifiedDate,
-                DiscontinuedDate,
-                bronze_ingestion_timestamp,
-                bronze_batch_id,
-                bronze_load_strategy
-            FROM local.bronze.saleslt_product
-            ORDER BY bronze_ingestion_timestamp DESC
+               *
+            FROM silver.saleslt_customer
+           
         """)
 
-        df.show(20, truncate=False)
+        df.show(20, truncate=True)
         print(f"Total rows: {df.count()}")
         df.printSchema()
 

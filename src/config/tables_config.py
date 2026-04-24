@@ -31,6 +31,46 @@ TABLES_CONFIG = {
         "soft_delete_column": "DiscontinuedDate",
         "initial_watermark": "1900-01-01 00:00:00",
     },
+    "saleslt_salesorderheader": {
+        "source": {
+            "schema": "SalesLT",
+            "table": "SalesOrderHeader",
+            "query_columns": [
+                "SalesOrderID",
+                "RevisionNumber",
+                "OrderDate",
+                "DueDate",
+                "ShipDate",
+                "Status",
+                "OnlineOrderFlag",
+                "SalesOrderNumber",
+                "PurchaseOrderNumber",
+                "AccountNumber",
+                "CustomerID",
+                "ShipToAddressID",
+                "BillToAddressID",
+                "ShipMethod",
+                "CreditCardApprovalCode",
+                "SubTotal",
+                "TaxAmt",
+                "Freight",
+                "TotalDue",
+                "Comment",
+                "rowguid",
+                "ModifiedDate",
+            ],
+        },
+        "target": {
+            "bronze_table": "demo.bronze.saleslt_salesorderheader",
+            "silver_table": "demo.silver.saleslt_salesorderheader"
+        },
+        "primary_key": ["SalesOrderID"],
+        "load_strategy": "incremental_upsert",
+        "watermark_column": "ModifiedDate",
+        "soft_delete_column": None,
+        "initial_watermark": "1900-01-01 00:00:00",
+    },
+
 
     "saleslt_address": {
         "source": {
@@ -51,6 +91,25 @@ TABLES_CONFIG = {
             "silver_table": "demo.silver.saleslt_address"
         },
         "primary_key": ["AddressID"],
+        "load_strategy": "full_snapshot",
+        "watermark_column": None,
+        "soft_delete_column": None,
+    },
+    "saleslt_customeraddress": {
+        "source": {
+            "schema": "SalesLT",
+            "table": "CustomerAddress",
+            "query_columns": [
+                "CustomerID",
+                "AddressID",
+                "AddressType",
+            ],
+        },
+        "target": {
+            "bronze_table": "demo.bronze.saleslt_customeraddress",
+            "silver_table": "demo.silver.saleslt_customeraddress"
+        },
+        "primary_key": ["SalesOrderID", "SalesOrderDetailID"],
         "load_strategy": "full_snapshot",
         "watermark_column": None,
         "soft_delete_column": None,

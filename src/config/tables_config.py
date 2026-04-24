@@ -23,6 +23,7 @@ TABLES_CONFIG = {
         },
         "target": {
             "bronze_table": "demo.bronze.saleslt_product",
+            "silver_table": "demo.silver.saleslt_product"
         },
         "primary_key": ["ProductID"],
         "load_strategy": "incremental_with_soft_delete",
@@ -47,6 +48,7 @@ TABLES_CONFIG = {
         },
         "target": {
             "bronze_table": "demo.bronze.saleslt_address",
+            "silver_table": "demo.silver.saleslt_address"
         },
         "primary_key": ["AddressID"],
         "load_strategy": "full_snapshot",
@@ -70,6 +72,7 @@ TABLES_CONFIG = {
         },
         "target": {
             "bronze_table": "demo.bronze.saleslt_salesorderdetail_snapshot",
+             "silver_table": "demo.silver.saleslt_salesorderdetail"
         },
         "primary_key": ["SalesOrderID", "SalesOrderDetailID"],
         "load_strategy": "full_snapshot",
@@ -85,6 +88,7 @@ TABLES_CONFIG = {
         },
         "target": {
             "bronze_table": "demo.bronze.saleslt_salesorderdetail_cdc",
+            "silver_table": "demo.silver.saleslt_salesorderdetail"
         },
         "primary_key": ["SalesOrderID", "SalesOrderDetailID"],
         "load_strategy": "incremental_cdc",
@@ -120,6 +124,7 @@ TABLES_CONFIG = {
         },
         "target": {
             "bronze_table": "demo.bronze.saleslt_customer",
+            "silver_table": "demo.silver.saleslt_customer",
         },
         "primary_key": ["CustomerID"],
         "load_strategy": "incremental_upsert",

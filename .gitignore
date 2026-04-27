@@ -1,0 +1,29 @@
+# Virtual environment
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# Iceberg / Spark generated files
+warehouse/
+spark-warehouse/
+metastore_db/
+
+# Logs
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

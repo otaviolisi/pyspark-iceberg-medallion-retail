@@ -1,0 +1,27 @@
+* [33m9b6e331[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m Delete .env
+*   [33m0162ce2[m Merge pull request #7 from otaviolisi/git_ignore
+[32m|[m[33m\[m  
+[32m|[m * [33m2a9b438[m[33m ([m[1;31morigin/git_ignore[m[33m)[m adding gitignore
+[32m|[m * [33m4694345[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mgold_layer[m[33m, [m[1;31morigin/gold_layer[m[33m)[m add gitignore
+[32m|[m * [33m946ce7f[m Add gitignore and remove unnecessary files
+* [33m|[m [33m98d1ff2[m Merge pull request #6 from otaviolisi/gold_layer
+[34m|[m[33m\[m[33m|[m 
+[34m|[m * [33me6ccd2b[m gold_layer sql
+* [35m|[m [33m9576633[m Merge pull request #5 from otaviolisi/silver_layer
+[36m|[m[35m\[m[35m|[m 
+[36m|[m * [33m0233ebe[m[33m ([m[1;31morigin/silver_layer[m[33m)[m finish silver
+* [1;31m|[m [33mc66b12b[m Merge pull request #4 from otaviolisi/silver_layer
+[1;32m|[m[1;31m\[m[1;31m|[m 
+[1;32m|[m * [33m9edf8dd[m Silver_layer
+* [1;33m|[m [33m48506a6[m Merge pull request #3 from otaviolisi/customer_upsert
+[1;34m|[m[1;33m\[m[1;33m|[m 
+[1;34m|[m * [33m3f4c848[m[33m ([m[1;31morigin/customer_upsert[m[33m)[m customer_upsert
+* [1;35m|[m [33mf4bbf12[m Merge pull request #2 from otaviolisi/full_snapshot_address
+[1;36m|[m[1;35m\[m[1;35m|[m 
+[1;36m|[m * [33m9ef4443[m[33m ([m[1;31morigin/full_snapshot_address[m[33m, [m[1;31morigin/cdc_load[m[33m)[m full_snapshot_load
+* [31m|[m [33m24c4856[m Merge pull request #1 from otaviolisi/product_load
+[32m|[m[31m\[m[31m|[m 
+[32m|[m * [33md6ab0d8[m[33m ([m[1;31morigin/product_load[m[33m)[m Bronze product
+[32m|[m[32m/[m  
+* [33m87f7b2d[m Spark and Iceberg Enviroment
+* [33md47646a[m First commit

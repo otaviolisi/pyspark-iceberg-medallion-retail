@@ -1,0 +1,102 @@
+[2026-04-29T13:35:56.991+0000] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2026-04-29T13:35:57.020+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: medallion_retail_pipeline.bronze_layer.bronze_salesorderdetail_cdc manual__2026-04-29T13:33:23.017238+00:00 [queued]>
+[2026-04-29T13:35:57.031+0000] {taskinstance.py:2614} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: medallion_retail_pipeline.bronze_layer.bronze_salesorderdetail_cdc manual__2026-04-29T13:33:23.017238+00:00 [queued]>
+[2026-04-29T13:35:57.033+0000] {taskinstance.py:2867} INFO - Starting attempt 1 of 1
+[2026-04-29T13:35:57.048+0000] {taskinstance.py:2890} INFO - Executing <Task(BashOperator): bronze_layer.bronze_salesorderdetail_cdc> on 2026-04-29 13:33:23.017238+00:00
+[2026-04-29T13:35:57.059+0000] {standard_task_runner.py:72} INFO - Started process 185 to run task
+[2026-04-29T13:35:57.064+0000] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 'medallion_retail_pipeline', 'bronze_layer.bronze_salesorderdetail_cdc', 'manual__2026-04-29T13:33:23.017238+00:00', '--job-id', '22', '--raw', '--subdir', 'DAGS_FOLDER/medallion_retail_pipeline.py', '--cfg-path', '/tmp/tmp6sc8v1d1']
+[2026-04-29T13:35:57.067+0000] {standard_task_runner.py:105} INFO - Job 22: Subtask bronze_layer.bronze_salesorderdetail_cdc
+[2026-04-29T13:35:57.191+0000] {task_command.py:467} INFO - Running <TaskInstance: medallion_retail_pipeline.bronze_layer.bronze_salesorderdetail_cdc manual__2026-04-29T13:33:23.017238+00:00 [running]> on host 20b20d764db8
+[2026-04-29T13:35:57.328+0000] {taskinstance.py:3134} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='medallion_retail_pipeline' AIRFLOW_CTX_TASK_ID='bronze_layer.bronze_salesorderdetail_cdc' AIRFLOW_CTX_EXECUTION_DATE='2026-04-29T13:33:23.017238+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2026-04-29T13:33:23.017238+00:00'
+[2026-04-29T13:35:57.329+0000] {taskinstance.py:732} INFO - ::endgroup::
+[2026-04-29T13:35:57.349+0000] {subprocess.py:78} INFO - Tmp dir root location: /tmp
+[2026-04-29T13:35:57.351+0000] {subprocess.py:88} INFO - Running command: ['/usr/bin/bash', '-c', "\n    docker exec spark-iceberg bash -c '\n      cd /home/iceberg/project &&\n      spark-submit         --packages com.microsoft.sqlserver:mssql-jdbc:12.6.3.jre11         src/jobs/run_bronze.py saleslt_salesorderdetail_cdc\n    '\n    "]
+[2026-04-29T13:35:57.363+0000] {subprocess.py:99} INFO - Output:
+[2026-04-29T13:35:59.394+0000] {subprocess.py:106} INFO - :: loading settings :: url = jar:file:/opt/spark/jars/ivy-2.5.1.jar!/org/apache/ivy/core/settings/ivysettings.xml
+[2026-04-29T13:35:59.500+0000] {subprocess.py:106} INFO - Ivy Default Cache set to: /root/.ivy2/cache
+[2026-04-29T13:35:59.501+0000] {subprocess.py:106} INFO - The jars for the packages stored in: /root/.ivy2/jars
+[2026-04-29T13:35:59.508+0000] {subprocess.py:106} INFO - com.microsoft.sqlserver#mssql-jdbc added as a dependency
+[2026-04-29T13:35:59.510+0000] {subprocess.py:106} INFO - :: resolving dependencies :: org.apache.spark#spark-submit-parent-b10a8790-dac6-4fe9-b896-cf867a744846;1.0
+[2026-04-29T13:35:59.511+0000] {subprocess.py:106} INFO - 	confs: [default]
+[2026-04-29T13:35:59.647+0000] {subprocess.py:106} INFO - 	found com.microsoft.sqlserver#mssql-jdbc;12.6.3.jre11 in central
+[2026-04-29T13:35:59.668+0000] {subprocess.py:106} INFO - :: resolution report :: resolve 154ms :: artifacts dl 4ms
+[2026-04-29T13:35:59.675+0000] {subprocess.py:106} INFO - 	:: modules in use:
+[2026-04-29T13:35:59.676+0000] {subprocess.py:106} INFO - 	com.microsoft.sqlserver#mssql-jdbc;12.6.3.jre11 from central in [default]
+[2026-04-29T13:35:59.677+0000] {subprocess.py:106} INFO - 	---------------------------------------------------------------------
+[2026-04-29T13:35:59.678+0000] {subprocess.py:106} INFO - 	|                  |            modules            ||   artifacts   |
+[2026-04-29T13:35:59.679+0000] {subprocess.py:106} INFO - 	|       conf       | number| search|dwnlded|evicted|| number|dwnlded|
+[2026-04-29T13:35:59.680+0000] {subprocess.py:106} INFO - 	---------------------------------------------------------------------
+[2026-04-29T13:35:59.680+0000] {subprocess.py:106} INFO - 	|      default     |   1   |   0   |   0   |   0   ||   1   |   0   |
+[2026-04-29T13:35:59.687+0000] {subprocess.py:106} INFO - 	---------------------------------------------------------------------
+[2026-04-29T13:35:59.687+0000] {subprocess.py:106} INFO - :: retrieving :: org.apache.spark#spark-submit-parent-b10a8790-dac6-4fe9-b896-cf867a744846
+[2026-04-29T13:35:59.688+0000] {subprocess.py:106} INFO - 	confs: [default]
+[2026-04-29T13:35:59.689+0000] {subprocess.py:106} INFO - 	0 artifacts copied, 1 already retrieved (0kB/9ms)
+[2026-04-29T13:35:59.944+0000] {subprocess.py:106} INFO - 26/04/29 13:35:59 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[2026-04-29T13:36:01.594+0000] {subprocess.py:106} INFO - 26/04/29 13:36:01 INFO SparkContext: Running Spark version 3.5.5
+[2026-04-29T13:36:01.596+0000] {subprocess.py:106} INFO - 26/04/29 13:36:01 INFO SparkContext: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+[2026-04-29T13:36:01.597+0000] {subprocess.py:106} INFO - 26/04/29 13:36:01 INFO SparkContext: Java version 17.0.14
+[2026-04-29T13:36:01.623+0000] {subprocess.py:106} INFO - 26/04/29 13:36:01 INFO ResourceUtils: ==============================================================
+[2026-04-29T13:36:01.624+0000] {subprocess.py:106} INFO - 26/04/29 13:36:01 INFO ResourceUtils: No custom resources configured for spark.driver.
+[2026-04-29T13:36:01.625+0000] {subprocess.py:106} INFO - 26/04/29 13:36:01 INFO ResourceUtils: ==============================================================
+[2026-04-29T13:36:01.626+0000] {subprocess.py:106} INFO - 26/04/29 13:36:01 INFO SparkContext: Submitted application: bronze-saleslt_salesorderdetail_cdc
+[2026-04-29T13:36:01.654+0000] {subprocess.py:106} INFO - 26/04/29 13:36:01 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+[2026-04-29T13:36:01.668+0000] {subprocess.py:106} INFO - 26/04/29 13:36:01 INFO ResourceProfile: Limiting resource is cpu
+[2026-04-29T13:36:01.669+0000] {subprocess.py:106} INFO - 26/04/29 13:36:01 INFO ResourceProfileManager: Added ResourceProfile id: 0
+[2026-04-29T13:36:01.756+0000] {subprocess.py:106} INFO - 26/04/29 13:36:01 INFO SecurityManager: Changing view acls to: root
+[2026-04-29T13:36:01.758+0000] {subprocess.py:106} INFO - 26/04/29 13:36:01 INFO SecurityManager: Changing modify acls to: root
+[2026-04-29T13:36:01.760+0000] {subprocess.py:106} INFO - 26/04/29 13:36:01 INFO SecurityManager: Changing view acls groups to:
+[2026-04-29T13:36:01.761+0000] {subprocess.py:106} INFO - 26/04/29 13:36:01 INFO SecurityManager: Changing modify acls groups to:
+[2026-04-29T13:36:01.762+0000] {subprocess.py:106} INFO - 26/04/29 13:36:01 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: root; groups with view permissions: EMPTY; users with modify permissions: root; groups with modify permissions: EMPTY
+[2026-04-29T13:36:02.126+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO Utils: Successfully started service 'sparkDriver' on port 45045.
+[2026-04-29T13:36:02.178+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO SparkEnv: Registering MapOutputTracker
+[2026-04-29T13:36:02.238+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO SparkEnv: Registering BlockManagerMaster
+[2026-04-29T13:36:02.281+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+[2026-04-29T13:36:02.283+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+[2026-04-29T13:36:02.291+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+[2026-04-29T13:36:02.340+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-36294c08-530d-4816-a571-a70dfab83194
+[2026-04-29T13:36:02.365+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO MemoryStore: MemoryStore started with capacity 434.4 MiB
+[2026-04-29T13:36:02.391+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO SparkEnv: Registering OutputCommitCoordinator
+[2026-04-29T13:36:02.617+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+[2026-04-29T13:36:02.718+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+[2026-04-29T13:36:02.733+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO Utils: Successfully started service 'SparkUI' on port 4041.
+[2026-04-29T13:36:02.805+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO SparkContext: Added JAR file:///root/.ivy2/jars/com.microsoft.sqlserver_mssql-jdbc-12.6.3.jre11.jar at spark://e4e26910a088:45045/jars/com.microsoft.sqlserver_mssql-jdbc-12.6.3.jre11.jar with timestamp 1777469761585
+[2026-04-29T13:36:02.811+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO SparkContext: Added file file:///root/.ivy2/jars/com.microsoft.sqlserver_mssql-jdbc-12.6.3.jre11.jar at file:///root/.ivy2/jars/com.microsoft.sqlserver_mssql-jdbc-12.6.3.jre11.jar with timestamp 1777469761585
+[2026-04-29T13:36:02.814+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO Utils: Copying /root/.ivy2/jars/com.microsoft.sqlserver_mssql-jdbc-12.6.3.jre11.jar to /tmp/spark-c41fb6ee-ab07-4b8d-8888-7b29e0ae87b3/userFiles-757e1ba7-8aa4-4543-9af6-3f973ade9793/com.microsoft.sqlserver_mssql-jdbc-12.6.3.jre11.jar
+[2026-04-29T13:36:02.924+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO Executor: Starting executor ID driver on host e4e26910a088
+[2026-04-29T13:36:02.926+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO Executor: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+[2026-04-29T13:36:02.927+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO Executor: Java version 17.0.14
+[2026-04-29T13:36:02.938+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+[2026-04-29T13:36:02.939+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@25d1cd9 for default.
+[2026-04-29T13:36:02.953+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO Executor: Fetching file:///root/.ivy2/jars/com.microsoft.sqlserver_mssql-jdbc-12.6.3.jre11.jar with timestamp 1777469761585
+[2026-04-29T13:36:02.978+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO Utils: /root/.ivy2/jars/com.microsoft.sqlserver_mssql-jdbc-12.6.3.jre11.jar has been previously copied to /tmp/spark-c41fb6ee-ab07-4b8d-8888-7b29e0ae87b3/userFiles-757e1ba7-8aa4-4543-9af6-3f973ade9793/com.microsoft.sqlserver_mssql-jdbc-12.6.3.jre11.jar
+[2026-04-29T13:36:02.986+0000] {subprocess.py:106} INFO - 26/04/29 13:36:02 INFO Executor: Fetching spark://e4e26910a088:45045/jars/com.microsoft.sqlserver_mssql-jdbc-12.6.3.jre11.jar with timestamp 1777469761585
+[2026-04-29T13:36:03.022+0000] {subprocess.py:106} INFO - 26/04/29 13:36:03 INFO TransportClientFactory: Successfully created connection to e4e26910a088/172.18.0.5:45045 after 24 ms (0 ms spent in bootstraps)
+[2026-04-29T13:36:03.029+0000] {subprocess.py:106} INFO - 26/04/29 13:36:03 INFO Utils: Fetching spark://e4e26910a088:45045/jars/com.microsoft.sqlserver_mssql-jdbc-12.6.3.jre11.jar to /tmp/spark-c41fb6ee-ab07-4b8d-8888-7b29e0ae87b3/userFiles-757e1ba7-8aa4-4543-9af6-3f973ade9793/fetchFileTemp3206196146301725529.tmp
+[2026-04-29T13:36:03.067+0000] {subprocess.py:106} INFO - 26/04/29 13:36:03 INFO Utils: /tmp/spark-c41fb6ee-ab07-4b8d-8888-7b29e0ae87b3/userFiles-757e1ba7-8aa4-4543-9af6-3f973ade9793/fetchFileTemp3206196146301725529.tmp has been previously copied to /tmp/spark-c41fb6ee-ab07-4b8d-8888-7b29e0ae87b3/userFiles-757e1ba7-8aa4-4543-9af6-3f973ade9793/com.microsoft.sqlserver_mssql-jdbc-12.6.3.jre11.jar
+[2026-04-29T13:36:03.074+0000] {subprocess.py:106} INFO - 26/04/29 13:36:03 INFO Executor: Adding file:/tmp/spark-c41fb6ee-ab07-4b8d-8888-7b29e0ae87b3/userFiles-757e1ba7-8aa4-4543-9af6-3f973ade9793/com.microsoft.sqlserver_mssql-jdbc-12.6.3.jre11.jar to class loader default
+[2026-04-29T13:36:03.085+0000] {subprocess.py:106} INFO - 26/04/29 13:36:03 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 33511.
+[2026-04-29T13:36:03.086+0000] {subprocess.py:106} INFO - 26/04/29 13:36:03 INFO NettyBlockTransferService: Server created on e4e26910a088:33511
+[2026-04-29T13:36:03.088+0000] {subprocess.py:106} INFO - 26/04/29 13:36:03 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+[2026-04-29T13:36:03.095+0000] {subprocess.py:106} INFO - 26/04/29 13:36:03 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, e4e26910a088, 33511, None)
+[2026-04-29T13:36:03.099+0000] {subprocess.py:106} INFO - 26/04/29 13:36:03 INFO BlockManagerMasterEndpoint: Registering block manager e4e26910a088:33511 with 434.4 MiB RAM, BlockManagerId(driver, e4e26910a088, 33511, None)
+[2026-04-29T13:36:03.102+0000] {subprocess.py:106} INFO - 26/04/29 13:36:03 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, e4e26910a088, 33511, None)
+[2026-04-29T13:36:03.103+0000] {subprocess.py:106} INFO - 26/04/29 13:36:03 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, e4e26910a088, 33511, None)
+[2026-04-29T13:36:03.260+0000] {subprocess.py:106} INFO - 26/04/29 13:36:03 INFO SingleEventLogFileWriter: Logging events to file:/home/iceberg/spark-events/local-1777469762869.inprogress
+[2026-04-29T13:36:09.295+0000] {subprocess.py:106} INFO - Running bronze pipeline for table_id=saleslt_salesorderdetail_cdc
+[2026-04-29T13:36:09.299+0000] {subprocess.py:106} INFO - Strategy: incremental_cdc
+[2026-04-29T13:36:09.299+0000] {subprocess.py:106} INFO - Target bronze table: demo.bronze.saleslt_salesorderdetail_cdc
+[2026-04-29T13:36:09.300+0000] {subprocess.py:106} INFO - CDC window from 0x0000004F000036D00003 to 0x0000004F00003A980003
+[2026-04-29T13:36:09.434+0000] {subprocess.py:106} INFO - Testing source read...
+[2026-04-29T13:36:09.960+0000] {subprocess.py:106} INFO - +------------+---------+------------+--------------+------------+------------------+--------+---------+---------+-----------------+---------+-------+------------+
+[2026-04-29T13:36:09.961+0000] {subprocess.py:106} INFO - |__$start_lsn|__$seqval|__$operation|__$update_mask|SalesOrderID|SalesOrderDetailID|OrderQty|ProductID|UnitPrice|UnitPriceDiscount|LineTotal|rowguid|ModifiedDate|
+[2026-04-29T13:36:09.962+0000] {subprocess.py:106} INFO - +------------+---------+------------+--------------+------------+------------------+--------+---------+---------+-----------------+---------+-------+------------+
+[2026-04-29T13:36:09.963+0000] {subprocess.py:106} INFO - +------------+---------+------------+--------------+------------+------------------+--------+---------+---------+-----------------+---------+-------+------------+
+[2026-04-29T13:36:09.964+0000] {subprocess.py:106} INFO - 
+[2026-04-29T13:36:10.589+0000] {subprocess.py:106} INFO - No records returned from source.
+[2026-04-29T13:36:10.598+0000] {subprocess.py:106} INFO - CDC LSN state advanced to: 0x0000004F00003A980003
+[2026-04-29T13:36:11.189+0000] {subprocess.py:110} INFO - Command exited with return code 0
+[2026-04-29T13:36:11.230+0000] {taskinstance.py:341} INFO - ::group::Post task execution logs
+[2026-04-29T13:36:11.231+0000] {taskinstance.py:353} INFO - Marking task as SUCCESS. dag_id=medallion_retail_pipeline, task_id=bronze_layer.bronze_salesorderdetail_cdc, run_id=manual__2026-04-29T13:33:23.017238+00:00, execution_date=20260429T133323, start_date=20260429T133557, end_date=20260429T133611
+[2026-04-29T13:36:11.315+0000] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2026-04-29T13:36:11.416+0000] {taskinstance.py:3901} INFO - 6 downstream tasks scheduled from follow-on schedule check
+[2026-04-29T13:36:11.419+0000] {local_task_job_runner.py:245} INFO - ::endgroup::

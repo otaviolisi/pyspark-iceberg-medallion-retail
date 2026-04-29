@@ -4,3 +4,396 @@
 [2026-04-29T12:52:05.348+0000] {manager.py:821} INFO - Searching for files in /opt/airflow/dags
 [2026-04-29T12:52:05.354+0000] {manager.py:824} INFO - There are 0 files in /opt/airflow/dags
 [2026-04-29T12:53:37.369+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15
+[2026-04-29T12:55:39.186+0000] {manager.py:483} INFO - Processing files using up to 2 processes at a time 
+[2026-04-29T12:55:39.187+0000] {manager.py:484} INFO - Process each file at most once every 30 seconds
+[2026-04-29T12:55:39.188+0000] {manager.py:485} INFO - Checking for new files in /opt/airflow/dags every 300 seconds
+[2026-04-29T12:55:39.188+0000] {manager.py:821} INFO - Searching for files in /opt/airflow/dags
+[2026-04-29T12:55:39.192+0000] {manager.py:824} INFO - There are 0 files in /opt/airflow/dags
+[2026-04-29T13:00:40.041+0000] {manager.py:821} INFO - Searching for files in /opt/airflow/dags
+[2026-04-29T13:00:40.048+0000] {manager.py:824} INFO - There are 0 files in /opt/airflow/dags
+[2026-04-29T13:05:40.857+0000] {manager.py:821} INFO - Searching for files in /opt/airflow/dags
+[2026-04-29T13:05:40.862+0000] {manager.py:824} INFO - There are 0 files in /opt/airflow/dags
+[2026-04-29T13:10:41.650+0000] {manager.py:821} INFO - Searching for files in /opt/airflow/dags
+[2026-04-29T13:10:41.663+0000] {manager.py:824} INFO - There are 0 files in /opt/airflow/dags
+[2026-04-29T13:11:51.871+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15
+[2026-04-29T13:12:03.204+0000] {manager.py:483} INFO - Processing files using up to 2 processes at a time 
+[2026-04-29T13:12:03.205+0000] {manager.py:484} INFO - Process each file at most once every 30 seconds
+[2026-04-29T13:12:03.205+0000] {manager.py:485} INFO - Checking for new files in /opt/airflow/dags every 300 seconds
+[2026-04-29T13:12:03.206+0000] {manager.py:821} INFO - Searching for files in /opt/airflow/dags
+[2026-04-29T13:12:03.254+0000] {manager.py:824} INFO - There are 1 files in /opt/airflow/dags
+[2026-04-29T13:12:03.349+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run      Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  ----------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     28  0.03s             0           0                                                   0
+================================================================================
+[2026-04-29T13:12:23.316+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15
+[2026-04-29T13:12:37.103+0000] {manager.py:483} INFO - Processing files using up to 2 processes at a time 
+[2026-04-29T13:12:37.103+0000] {manager.py:484} INFO - Process each file at most once every 30 seconds
+[2026-04-29T13:12:37.104+0000] {manager.py:485} INFO - Checking for new files in /opt/airflow/dags every 300 seconds
+[2026-04-29T13:12:37.105+0000] {manager.py:821} INFO - Searching for files in /opt/airflow/dags
+[2026-04-29T13:12:37.123+0000] {manager.py:824} INFO - There are 1 files in /opt/airflow/dags
+[2026-04-29T13:12:37.200+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run      Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  ----------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     28  0.02s             0           0                                                   0
+================================================================================
+[2026-04-29T13:13:07.475+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     29  0.00s             1           0  0.20s           2026-04-29T13:12:37                      10
+================================================================================
+[2026-04-29T13:13:37.832+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     30  0.01s             1           0  0.16s           2026-04-29T13:13:07                      10
+================================================================================
+[2026-04-29T13:14:08.090+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     31  0.00s             1           0  0.16s           2026-04-29T13:13:37                      10
+================================================================================
+[2026-04-29T13:14:38.581+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     32  0.01s             1           0  0.15s           2026-04-29T13:14:08                      10
+================================================================================
+[2026-04-29T13:15:08.833+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     33  0.00s             1           0  0.16s           2026-04-29T13:14:38                      10
+================================================================================
+[2026-04-29T13:15:39.194+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     34  0.01s             1           0  0.16s           2026-04-29T13:15:08                      10
+================================================================================
+[2026-04-29T13:16:09.447+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     35  0.00s             1           0  0.16s           2026-04-29T13:15:39                      10
+================================================================================
+[2026-04-29T13:16:39.803+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     36  0.01s             1           0  0.17s           2026-04-29T13:16:09                      10
+================================================================================
+[2026-04-29T13:17:10.165+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     37  0.00s             1           0  0.16s           2026-04-29T13:16:39                      10
+================================================================================
+[2026-04-29T13:17:37.378+0000] {manager.py:821} INFO - Searching for files in /opt/airflow/dags
+[2026-04-29T13:17:37.398+0000] {manager.py:824} INFO - There are 1 files in /opt/airflow/dags
+[2026-04-29T13:17:40.453+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     38  0.01s             1           0  0.14s           2026-04-29T13:17:10                      10
+================================================================================
+[2026-04-29T13:18:10.810+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     39  0.00s             1           0  0.15s           2026-04-29T13:17:40                      10
+================================================================================
+[2026-04-29T13:18:41.053+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     40  0.00s             1           0  0.19s           2026-04-29T13:18:10                      10
+================================================================================
+[2026-04-29T13:19:11.284+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     41  0.00s             1           0  0.15s           2026-04-29T13:18:41                      10
+================================================================================
+[2026-04-29T13:19:41.522+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     42  0.00s             1           0  0.16s           2026-04-29T13:19:11                      10
+================================================================================
+[2026-04-29T13:20:11.872+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     43  0.01s             1           0  0.16s           2026-04-29T13:19:41                      10
+================================================================================
+[2026-04-29T13:20:42.122+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     44  0.00s             1           0  0.16s           2026-04-29T13:20:12                      10
+================================================================================
+[2026-04-29T13:21:12.482+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     45  0.00s             1           0  0.16s           2026-04-29T13:20:42                      10
+================================================================================
+[2026-04-29T13:21:42.730+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     46  0.00s             1           0  0.15s           2026-04-29T13:21:12                      10
+================================================================================
+[2026-04-29T13:22:13.081+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                         PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+----------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py     47  0.01s             1           0  0.16s           2026-04-29T13:21:42                      10
+================================================================================
+[2026-04-29T13:22:37.633+0000] {manager.py:821} INFO - Searching for files in /opt/airflow/dags
+[2026-04-29T13:22:37.678+0000] {manager.py:824} INFO - There are 2 files in /opt/airflow/dags
+[2026-04-29T13:22:43.092+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                            PID    Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py                                1           0  0.39s           2026-04-29T13:22:13                      10
+/opt/airflow/dags/init_salesorderdetail_snapshot.py                           1           0  0.34s           2026-04-29T13:22:38                      43
+================================================================================
+[2026-04-29T13:23:13.184+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                            PID    Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py                                1           0  0.15s           2026-04-29T13:22:43                      10
+/opt/airflow/dags/init_salesorderdetail_snapshot.py                           1           0  0.15s           2026-04-29T13:23:08                      10
+================================================================================
+[2026-04-29T13:23:43.656+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                            PID    Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py                                1           0  0.30s           2026-04-29T13:23:29                      32
+/opt/airflow/dags/init_salesorderdetail_snapshot.py                           1           0  0.16s           2026-04-29T13:23:38                      10
+================================================================================
+[2026-04-29T13:23:48.312+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15
+[2026-04-29T13:24:00.365+0000] {manager.py:483} INFO - Processing files using up to 2 processes at a time 
+[2026-04-29T13:24:00.366+0000] {manager.py:484} INFO - Process each file at most once every 30 seconds
+[2026-04-29T13:24:00.366+0000] {manager.py:485} INFO - Checking for new files in /opt/airflow/dags every 300 seconds
+[2026-04-29T13:24:00.367+0000] {manager.py:821} INFO - Searching for files in /opt/airflow/dags
+[2026-04-29T13:24:00.396+0000] {manager.py:824} INFO - There are 2 files in /opt/airflow/dags
+[2026-04-29T13:24:00.495+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                              PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run      Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  ----------  ----------------------
+/opt/airflow/dags/init_salesorderdetail_snapshot.py     29  0.03s             0           0                                                   0
+/opt/airflow/dags/medallion_retail_pipeline.py          28  0.04s             0           0                                                   0
+================================================================================
+[2026-04-29T13:24:30.882+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                              PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py          30  0.03s             1           0  0.17s           2026-04-29T13:24:00                      10
+/opt/airflow/dags/init_salesorderdetail_snapshot.py     31  0.01s             1           0  0.15s           2026-04-29T13:24:00                      10
+================================================================================
+[2026-04-29T13:25:01.541+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                              PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py          54  0.05s             1           0  0.26s           2026-04-29T13:24:31                      10
+/opt/airflow/dags/init_salesorderdetail_snapshot.py     55  0.02s             1           0  0.23s           2026-04-29T13:24:31                      10
+================================================================================
+[2026-04-29T13:25:32.472+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                              PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py          78  0.02s             1           0  0.69s           2026-04-29T13:25:02                      10
+/opt/airflow/dags/init_salesorderdetail_snapshot.py     79  0.01s             1           0  0.64s           2026-04-29T13:25:02                      10
+================================================================================
+[2026-04-29T13:26:02.831+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                              PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py         125  0.03s             1           0  0.24s           2026-04-29T13:25:32                      10
+/opt/airflow/dags/init_salesorderdetail_snapshot.py    126  0.01s             1           0  0.23s           2026-04-29T13:25:32                      10
+================================================================================
+[2026-04-29T13:26:33.335+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                              PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py         149  0.06s             1           0  0.27s           2026-04-29T13:26:03                      10
+/opt/airflow/dags/init_salesorderdetail_snapshot.py    150  0.02s             1           0  0.27s           2026-04-29T13:26:03                      10
+================================================================================
+[2026-04-29T13:27:03.927+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                              PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py         194  0.03s             1           0  0.32s           2026-04-29T13:26:33                      10
+/opt/airflow/dags/init_salesorderdetail_snapshot.py    195  0.01s             1           0  0.30s           2026-04-29T13:26:33                      10
+================================================================================
+[2026-04-29T13:27:34.279+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                              PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py         219  0.03s             1           0  0.27s           2026-04-29T13:27:04                      10
+/opt/airflow/dags/init_salesorderdetail_snapshot.py    220  0.01s             1           0  0.26s           2026-04-29T13:27:04                      10
+================================================================================
+[2026-04-29T13:28:04.849+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                              PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py         244  0.07s             1           0  0.49s           2026-04-29T13:27:34                      10
+/opt/airflow/dags/init_salesorderdetail_snapshot.py    245  0.01s             1           0  0.48s           2026-04-29T13:27:34                      10
+================================================================================
+[2026-04-29T13:28:35.365+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                              PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py         269  0.02s             1           0  0.38s           2026-04-29T13:28:05                      10
+/opt/airflow/dags/init_salesorderdetail_snapshot.py    270  0.01s             1           0  0.34s           2026-04-29T13:28:05                      10
+================================================================================
+[2026-04-29T13:29:00.638+0000] {manager.py:821} INFO - Searching for files in /opt/airflow/dags
+[2026-04-29T13:29:00.673+0000] {manager.py:824} INFO - There are 2 files in /opt/airflow/dags
+[2026-04-29T13:29:05.766+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                              PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py         271  0.02s             1           0  0.17s           2026-04-29T13:28:35                      10
+/opt/airflow/dags/init_salesorderdetail_snapshot.py    272  0.00s             1           0  0.16s           2026-04-29T13:28:35                      10
+================================================================================
+[2026-04-29T13:29:36.135+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                              PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py         273  0.02s             1           0  0.16s           2026-04-29T13:29:05                      10
+/opt/airflow/dags/init_salesorderdetail_snapshot.py    274  0.00s             1           0  0.15s           2026-04-29T13:29:05                      10
+================================================================================
+[2026-04-29T13:30:06.563+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                              PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py                                1           0  0.33s           2026-04-29T13:30:01                      32
+/opt/airflow/dags/init_salesorderdetail_snapshot.py    276  0.00s             1           0  0.14s           2026-04-29T13:29:36                      10
+================================================================================
+[2026-04-29T13:30:36.977+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                              PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py                                1           0  0.16s           2026-04-29T13:30:31                      10
+/opt/airflow/dags/init_salesorderdetail_snapshot.py    278  0.01s             1           0  0.15s           2026-04-29T13:30:06                      10
+================================================================================
+[2026-04-29T13:31:07.401+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                              PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py                                1           0  0.37s           2026-04-29T13:30:54                      32
+/opt/airflow/dags/init_salesorderdetail_snapshot.py    280  0.00s             1           0  0.15s           2026-04-29T13:30:37                      10
+================================================================================
+[2026-04-29T13:31:37.844+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                              PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/init_salesorderdetail_snapshot.py    282  0.01s             1           0  0.16s           2026-04-29T13:31:07                      10
+/opt/airflow/dags/medallion_retail_pipeline.py                                1           0  0.16s           2026-04-29T13:31:24                      10
+================================================================================
+[2026-04-29T13:32:08.299+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                              PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py                                1           0  0.19s           2026-04-29T13:31:55                      10
+/opt/airflow/dags/init_salesorderdetail_snapshot.py    284  0.00s             1           0  0.17s           2026-04-29T13:31:38                      10
+================================================================================
+[2026-04-29T13:32:38.902+0000] {manager.py:997} INFO - 
+================================================================================
+DAG File Processing Stats
+
+File Path                                              PID  Runtime      # DAGs    # Errors  Last Runtime    Last Run               Last # of DB Queries
+---------------------------------------------------  -----  ---------  --------  ----------  --------------  -------------------  ----------------------
+/opt/airflow/dags/medallion_retail_pipeline.py                                1           0  0.28s           2026-04-29T13:32:37                      32
+/opt/airflow/dags/init_salesorderdetail_snapshot.py    287  0.01s             1           0  0.15s           2026-04-29T13:32:08                      10
+================================================================================
+[2026-04-29T13:32:40.499+0000] {manager.py:465} INFO - Exiting gracefully upon receiving signal 15

@@ -1,53 +1,84 @@
 # PySpark + Apache Iceberg Medallion Architecture (Retail Analytics)
 
-This project demonstrates a **local end-to-end data engineering pipeline** using **PySpark + Apache Iceberg + SQL Server** following the **Medallion Architecture pattern (Bronze → Silver → Gold)**.
+This project demonstrates a **local end-to-end data engineering platform** using **PySpark, Apache Iceberg, SQL Server CDC, MinIO, Docker, and Apache Airflow** following the **Medallion Architecture pattern (Bronze → Silver → Gold)**.
 
-The goal of this project is to simulate a modern data platform locally while implementing real-world ingestion patterns such as:
+The goal is to simulate how modern companies build data platforms for analytical workloads while handling:
 
 * Full snapshot ingestion
-* Incremental ingestion using watermark columns
+* Incremental ingestion using watermarks
 * SQL Server CDC ingestion using LSN tracking
-* SCD Type 2 logic in Silver layer
-* Dimensional modeling in Gold layer
-* Iceberg table management for analytical workloads
+* SCD Type 2 historical tracking
+* Dimensional modeling
+* Workflow orchestration with Apache Airflow
+* Local lakehouse infrastructure using Docker
 
-This project uses the **AdventureWorks SalesLT database** as the source system.
+This project uses the **AdventureWorks SalesLT database** as the transactional source system.
 
 ---
 
-## Architecture Overview
+# Architecture Overview
 
 ```text
-SQL Server (AdventureWorks)
-        |
-        v
-Bronze Layer (Raw ingestion)
-- Full Snapshot
-- Incremental Watermark
-- CDC ingestion
-        |
-        v
-Silver Layer (Business transformations)
-- Deduplication
-- Merge logic
-- SCD Type 2 historical tracking
-        |
-        v
-Gold Layer (Analytics-ready)
-- Dimension tables
-- Fact tables
-- Star schema modeling
+                         ┌──────────────────────────┐
+                         │ SQL Server Source System │
+                         │ AdventureWorks SalesLT   │
+                         └────────────┬─────────────┘
+                                      │
+          ┌───────────────────────────┼───────────────────────────┐
+          │                           │                           │
+          │                           │                           │
+ Full Snapshot Load         Incremental Watermark Load       CDC Load
+          │                           │                           │
+          └───────────────┬───────────┴───────────┬──────────────┘
+                          │                       │
+                          v                       v
+
+                Bronze Layer (Apache Iceberg)
+        - Raw ingestion
+        - Snapshot ingestion
+        - Incremental ingestion
+        - CDC ingestion via SQL Server LSN
+
+                          |
+                          v
+
+                Silver Layer
+        - Merge logic
+        - Deduplication
+        - Schema standardization
+        - SCD Type 2 historical tracking
+
+                          |
+                          v
+
+                Gold Layer
+        - Fact tables
+        - Dimension tables
+        - Star schema modeling
+
+                          |
+                          v
+
+              Apache Airflow Orchestration
+        - Initial Load DAG
+        - Incremental DAG
 ```
 
-### Technologies Used
+---
+
+# Tech Stack
 
 * Python 3.13
 * PySpark
 * Apache Iceberg
 * SQL Server
+* SQL Server CDC
+* Apache Airflow
+* Docker
+* MinIO
+* Iceberg REST Catalog
 * JDBC
-* UV (Python package manager)
-* Local object storage / warehouse
+* UV Package Manager
 
 ---
 
@@ -55,6 +86,15 @@ Gold Layer (Analytics-ready)
 
 ```bash
 pyspark-iceberg-medallion-retail/
+│
+├── airflow/
+│   ├── dags/
+│   │   ├── medallion_retail_pipeline.py
+│   │   └── init_salesorderdetail_snapshot.py
+│   │
+│   ├── logs/
+│   ├── plugins/
+│   └── Dockerfile
 │
 ├── src/
 │   ├── config/
@@ -71,27 +111,17 @@ pyspark-iceberg-medallion-retail/
 │   │
 │   ├── pipelines/
 │   │   ├── bronze/
-│   │   │   └── generic_bronze.py
-│   │   │
 │   │   ├── silver/
-│   │   │   └── generic_silver.py
-│   │   │
 │   │   └── gold/
-│   │       ├── generic_gold.py
-│   │       └── sql/
-│   │           ├── dim_customer.sql
-│   │           ├── dim_product.sql
-│   │           └── fact_sales.sql
 │   │
 │   └── utils/
 │       └── watermark.py
 │
 ├── state/
-│   ├── saleslt_customer_bronze_watermark.json
-│   ├── saleslt_product_bronze_watermark.json
-│   ├── saleslt_salesorderheader_bronze_watermark.json
-│   └── saleslt_salesorderdetail_cdc_bronze_lsn.json
+│   ├── bronze watermarks
+│   └── cdc lsn states
 │
+├── docker-compose.yaml
 ├── pyproject.toml
 └── README.md
 ```
@@ -102,24 +132,22 @@ pyspark-iceberg-medallion-retail/
 
 The Bronze layer is responsible for raw ingestion from SQL Server.
 
-## Supported ingestion strategies
+## 1. Full Snapshot
 
-### 1. Full Snapshot
-
-Used when source tables do not have incremental fields.
+Used when source tables do not contain incremental tracking fields.
 
 Example:
 
-* Customer Address
 * Reference tables
+* Initial SalesOrderDetail historical load
 
 ---
 
-### 2. Incremental Watermark
+## 2. Incremental Watermark
 
-Used when source tables contain a `ModifiedDate` column.
+Used when source tables contain `ModifiedDate`.
 
-Example:
+Examples:
 
 * Product
 * Customer
@@ -141,20 +169,20 @@ Example:
 
 ---
 
-### 3. SQL Server CDC
+## 3. SQL Server CDC
 
-Used for transactional tables with frequent updates.
+Used for highly transactional tables.
 
 Example:
 
 * SalesOrderDetail
 
-The project tracks the latest processed:
+The pipeline tracks:
 
 * LSN
 * CDC state
 
-This simulates enterprise-grade incremental ingestion.
+This simulates real enterprise incremental ingestion.
 
 ---
 
@@ -164,10 +192,10 @@ The Silver layer applies business transformations.
 
 Responsibilities:
 
-* Deduplication
 * Merge logic
-* Data cleaning
+* Deduplication
 * Schema standardization
+* Data cleaning
 * Historical tracking
 
 ---
@@ -179,8 +207,6 @@ The Silver layer maintains historical versions using:
 * `is_current`
 * `valid_from`
 * `valid_to`
-
-This allows full historical tracking of dimension changes.
 
 Example:
 
@@ -195,18 +221,68 @@ Example:
 
 The Gold layer creates analytics-ready datasets.
 
-Current outputs:
-
-### Dimension Tables
+## Dimension Tables
 
 * `dim_customer`
 * `dim_product`
 
-### Fact Tables
+## Fact Tables
 
 * `fact_sales`
 
 These tables follow a **star schema design** for BI/reporting consumption.
+
+---
+
+# Apache Airflow Orchestration
+
+This project uses Apache Airflow to orchestrate the platform.
+
+## Initial Load DAG
+
+DAG: `init_salesorderdetail_snapshot`
+
+This DAG runs only once to bootstrap historical data:
+
+1. Bronze full snapshot ingestion
+2. Silver transformation
+3. `init_cdc_state.py`
+
+This creates the baseline before incremental CDC starts.
+
+---
+
+## Incremental DAG
+
+DAG: `medallion_retail_pipeline`
+
+This DAG handles recurring executions:
+
+* Bronze incremental ingestion
+* Bronze CDC ingestion
+* Silver transformations
+* Gold refresh
+
+For `SalesOrderDetail`, only incremental CDC changes are processed after the initial load.
+
+---
+
+# Infrastructure
+
+The platform runs locally using Docker.
+
+Services:
+
+- Apache Spark
+- Apache Airflow
+- MinIO
+- Iceberg REST Catalog
+- Microsoft SQL Server
+
+Run infrastructure:
+
+```bash
+docker compose up -d
 
 ---
 
@@ -234,61 +310,51 @@ SQL_SERVER_PASSWORD=
 
 ---
 
-## 3. Run Bronze ingestion
+## 3. Run initial load DAG
 
-```bash
-python src/jobs/run_bronze.py saleslt_product
+Access Airflow:
+
+```text
+http://localhost:8081
 ```
 
-Example CDC ingestion:
+Run:
 
-```bash
-python src/jobs/run_bronze.py saleslt_salesorderdetail_cdc
-```
+* `init_salesorderdetail_snapshot`
 
 ---
 
-## 4. Run Silver layer
+## 4. Run incremental DAG
 
-```bash
-python src/jobs/run_silver.py saleslt_product
-```
+Run:
 
----
-
-## 5. Run Gold layer
-
-```bash
-python src/jobs/run_gold.py
-```
+* `medallion_retail_pipeline`
 
 ---
 
-# Example Business Scenario
+# Business Scenario
 
 This project simulates a retail company that needs:
 
 * Product history tracking
 * Customer analytics
-* Sales fact reporting
+* Sales reporting
 * Incremental ingestion optimization
-* CDC for transactional tables
+* CDC ingestion for transactional tables
 
 This mirrors real-world modern data platform challenges.
 
 ---
 
-# Future Improvements (Version 2)
+# Future Improvements
 
-Potential enhancements:
-
-* Apache Airflow orchestration
 * dbt integration
-* Data quality checks (Great Expectations)
+* Data quality validation (Great Expectations)
 * CI/CD pipeline
 * Cloud deployment (AWS/Azure/GCP)
 * Streaming ingestion with Kafka
-* Unit tests
+* Unit testing
+* Monitoring/alerting
 
 ---
 
@@ -298,21 +364,23 @@ This project demonstrates practical experience with:
 
 ✅ PySpark
 ✅ Apache Iceberg
+✅ Apache Airflow
+✅ SQL Server CDC
 ✅ Incremental pipelines
-✅ CDC ingestion
 ✅ SCD Type 2
 ✅ Dimensional modeling
-✅ Data lakehouse architecture
+✅ Docker infrastructure
+✅ Lakehouse architecture
 
 These are highly relevant skills for:
 
 * Data Engineer roles
 * Analytics Engineer roles
-* Modern Lakehouse platforms
-* Databricks environments
+* Modern lakehouse environments
+
 
 ---
 
 # Author
 
-Built as a portfolio project to demonstrate modern data engineering practices using local infrastructure.
+Built as a portfolio project to demonstrate real-world data engineering architecture patterns using local infrastructure.

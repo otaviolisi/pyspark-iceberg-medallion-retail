@@ -353,7 +353,6 @@ This mirrors real-world modern data platform challenges.
 * CI/CD pipeline
 * Cloud deployment (AWS/Azure/GCP)
 * Streaming ingestion with Kafka
-* Unit testing
 * Monitoring/alerting
 
 ---
